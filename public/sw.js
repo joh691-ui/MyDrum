@@ -1,5 +1,5 @@
 // sw.js — tiny offline cache so MyDrum works after "Add to Home Screen"
-const CACHE = "mydrum-v1";
+const CACHE = "mydrum-v2";
 const ASSETS = [
   "./",
   "./index.html",
@@ -27,7 +27,17 @@ self.addEventListener("fetch", (e) => {
   const url = new URL(e.request.url);
   // never cache the API — always go to network
   if (url.pathname.startsWith("/api/")) return;
+  if (e.request.method !== "GET") return;
+
+  // Network-first: always fetch fresh when online (so updates arrive
+  // immediately), fall back to the cache when offline.
   e.respondWith(
-    caches.match(e.request).then((hit) => hit || fetch(e.request))
+    fetch(e.request)
+      .then((res) => {
+        const copy = res.clone();
+        caches.open(CACHE).then((c) => c.put(e.request, copy)).catch(() => {});
+        return res;
+      })
+      .catch(() => caches.match(e.request))
   );
 });
