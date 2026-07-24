@@ -105,7 +105,7 @@ app.listen(PORT, "0.0.0.0", () => {
   const lan = Object.values(nets)
     .flat()
     .find((n) => n && n.family === "IPv4" && !n.internal);
-  console.log(`\n  MyDrum (PO-14 style) is running\n`);
+  console.log(`\n  PLONK (PO-14 style) is running\n`);
   console.log(`  Local:   http://localhost:${PORT}`);
   if (lan) console.log(`  iPhone:  http://${lan.address}:${PORT}   (same Wi-Fi)`);
   console.log(`\n  On iPhone: open the URL in Safari, then Share -> Add to Home Screen.\n`);

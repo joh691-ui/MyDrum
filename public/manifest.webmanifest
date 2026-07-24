@@ -1,6 +1,6 @@
 {
-  "name": "MyDrum — PO-14 style bass synth",
-  "short_name": "MyDrum",
+  "name": "PLONK — PO-14 style bass synth",
+  "short_name": "PLONK",
   "description": "A pocket-operator style bass synth and 16-step sequencer.",
   "start_url": "./",
   "scope": "./",
