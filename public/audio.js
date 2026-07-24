@@ -7,23 +7,25 @@
 // FM basses, plucks, and a few percussive/atonal ones.
 // ---------------------------------------------------------------------------
 
+// `drive` now feeds a per-voice waveshaper (the PO-14 punch/grit).
+// `click` adds a short filtered-noise transient at the attack.
 export const SOUNDS = [
-  { name: "sub sine",   type: "sine",     glide: 0,    decay: 0.9,  cutoff: 400,  q: 2,  drive: 0.1, sub: 1.0 },
-  { name: "round",      type: "sine",     glide: 0.04, decay: 0.7,  cutoff: 600,  q: 4,  drive: 0.2, sub: 0.7 },
-  { name: "triangle",   type: "triangle", glide: 0,    decay: 0.6,  cutoff: 900,  q: 3,  drive: 0.2, sub: 0.5 },
-  { name: "saw growl",  type: "sawtooth", glide: 0.02, decay: 0.8,  cutoff: 500,  q: 8,  drive: 0.5, sub: 0.6 },
-  { name: "acid",       type: "sawtooth", glide: 0.05, decay: 0.5,  cutoff: 350,  q: 14, drive: 0.6, sub: 0.3, env: 2200 },
-  { name: "square bass",type: "square",   glide: 0,    decay: 0.7,  cutoff: 700,  q: 4,  drive: 0.3, sub: 0.5 },
-  { name: "reese",      type: "sawtooth", glide: 0.03, decay: 1.0,  cutoff: 450,  q: 6,  drive: 0.4, sub: 0.5, detune: 14 },
-  { name: "fm bass",    type: "fm",       glide: 0.01, decay: 0.6,  cutoff: 1200, q: 2,  drive: 0.3, sub: 0.4, fm: 2, fmAmt: 300 },
-  { name: "pluck",      type: "triangle", glide: 0,    decay: 0.28, cutoff: 1600, q: 6,  drive: 0.2, sub: 0.3, env: 1800 },
-  { name: "wobble",     type: "sawtooth", glide: 0.02, decay: 0.9,  cutoff: 500,  q: 10, drive: 0.5, sub: 0.5, lfo: 6, lfoAmt: 400 },
-  { name: "hollow",     type: "square",   glide: 0,    decay: 0.6,  cutoff: 1000, q: 2,  drive: 0.2, sub: 0.4, pwm: true },
-  { name: "deep drop",  type: "sine",     glide: 0.12, decay: 1.2,  cutoff: 300,  q: 1,  drive: 0.1, sub: 1.0, drop: 12 },
-  { name: "buzz",       type: "sawtooth", glide: 0,    decay: 0.4,  cutoff: 2200, q: 4,  drive: 0.7, sub: 0.2 },
-  { name: "sine tick",  type: "sine",     glide: 0,    decay: 0.12, cutoff: 3000, q: 1,  drive: 0.1, sub: 0.2, env: 0 },
-  { name: "noise hit",  type: "noise",    glide: 0,    decay: 0.18, cutoff: 4000, q: 1,  drive: 0.2, sub: 0 },
-  { name: "sub kick",   type: "sine",     glide: 0,    decay: 0.35, cutoff: 200,  q: 1,  drive: 0.3, sub: 1.0, drop: 36 },
+  { name: "sub sine",   type: "sine",     glide: 0,    decay: 0.9,  cutoff: 420,  q: 2,  drive: 0.25, sub: 1.0 },
+  { name: "round",      type: "sine",     glide: 0.04, decay: 0.7,  cutoff: 620,  q: 4,  drive: 0.30, sub: 0.7 },
+  { name: "triangle",   type: "triangle", glide: 0,    decay: 0.6,  cutoff: 950,  q: 3,  drive: 0.30, sub: 0.5 },
+  { name: "saw growl",  type: "sawtooth", glide: 0.02, decay: 0.8,  cutoff: 520,  q: 9,  drive: 0.65, sub: 0.6 },
+  { name: "acid",       type: "sawtooth", glide: 0.05, decay: 0.5,  cutoff: 330,  q: 16, drive: 0.75, sub: 0.3, env: 2600 },
+  { name: "square bass",type: "square",   glide: 0,    decay: 0.7,  cutoff: 720,  q: 5,  drive: 0.45, sub: 0.5 },
+  { name: "reese",      type: "sawtooth", glide: 0.03, decay: 1.0,  cutoff: 470,  q: 7,  drive: 0.55, sub: 0.5, detune: 17 },
+  { name: "fm bass",    type: "fm",       glide: 0.01, decay: 0.55, cutoff: 1300, q: 3,  drive: 0.40, sub: 0.4, fm: 1.5, fmAmt: 420 },
+  { name: "pluck",      type: "triangle", glide: 0,    decay: 0.26, cutoff: 1700, q: 7,  drive: 0.35, sub: 0.3, env: 2000, click: 0.35 },
+  { name: "wobble",     type: "sawtooth", glide: 0.02, decay: 0.9,  cutoff: 520,  q: 11, drive: 0.60, sub: 0.5, lfo: 6, lfoAmt: 420 },
+  { name: "hollow",     type: "square",   glide: 0,    decay: 0.6,  cutoff: 1050, q: 2,  drive: 0.35, sub: 0.4, pwm: true },
+  { name: "deep drop",  type: "sine",     glide: 0.12, decay: 1.2,  cutoff: 300,  q: 1,  drive: 0.20, sub: 1.0, drop: 14 },
+  { name: "buzz",       type: "sawtooth", glide: 0,    decay: 0.4,  cutoff: 2400, q: 4,  drive: 0.85, sub: 0.2 },
+  { name: "sine tick",  type: "sine",     glide: 0,    decay: 0.11, cutoff: 3200, q: 1,  drive: 0.20, sub: 0.15, env: 0, click: 0.5, clickHp: 4000 },
+  { name: "noise hit",  type: "noise",    glide: 0,    decay: 0.17, cutoff: 3600, q: 1,  drive: 0.35, sub: 0,   click: 0.5, clickHp: 1800 },
+  { name: "sub kick",   type: "sine",     glide: 0,    decay: 0.40, cutoff: 200,  q: 1,  drive: 0.50, sub: 1.0, drop: 40, click: 0.55, clickHp: 1200 },
 ];
 
 export class AudioEngine {
@@ -37,6 +39,22 @@ export class AudioEngine {
     this.ready = false;
     this._activeFx = 0;     // performance fx id, 0 = none
     this._noiseBuffer = null;
+    this._curves = new Map(); // cached waveshaper curves by drive amount
+  }
+
+  // Soft-clip curve (tanh). Cached per drive amount. Higher drive = more grit.
+  _curve(drive) {
+    const key = Math.round(drive * 20);
+    if (this._curves.has(key)) return this._curves.get(key);
+    const k = 1 + drive * 9;
+    const n = 1024;
+    const curve = new Float32Array(n);
+    for (let i = 0; i < n; i++) {
+      const x = (i * 2) / n - 1;
+      curve[i] = Math.tanh(k * x) / Math.tanh(k); // normalise to +/-1
+    }
+    this._curves.set(key, curve);
+    return curve;
   }
 
   // Must be called from a user gesture on iOS.
@@ -73,8 +91,14 @@ export class AudioEngine {
     const delayFb = this.ctx.createGain();
     delayFb.gain.value = 0.35;
 
+    // gentle master saturation for hardware-like warmth/glue
+    const sat = this.ctx.createWaveShaper();
+    sat.curve = this._curve(0.22);
+    sat.oversample = "2x";
+
     this.fx.connect(this.filter);
-    this.filter.connect(comp);
+    this.filter.connect(sat);
+    sat.connect(comp);
     comp.connect(this.master);
     this.master.connect(this.ctx.destination);
 
@@ -125,7 +149,29 @@ export class AudioEngine {
       vf.frequency.setValueAtTime(s.cutoff + s.env, t);
       vf.frequency.exponentialRampToValueAtTime(Math.max(60, s.cutoff), t + dur * 0.6);
     }
-    vf.connect(amp);
+    // per-voice waveshaper = the PO-14 drive/grit
+    const shaper = this.ctx.createWaveShaper();
+    shaper.curve = this._curve(s.drive || 0.1);
+    shaper.oversample = "2x";
+    vf.connect(shaper);
+    shaper.connect(amp);
+
+    // attack transient (click) for punchy/percussive presets
+    if (s.click) {
+      const click = this.ctx.createBufferSource();
+      click.buffer = this._noiseBuffer;
+      const chp = this.ctx.createBiquadFilter();
+      chp.type = "highpass";
+      chp.frequency.value = s.clickHp || 2000;
+      const cg = this.ctx.createGain();
+      cg.gain.setValueAtTime(s.click * velocity, t);
+      cg.gain.exponentialRampToValueAtTime(0.0005, t + 0.03);
+      click.connect(chp);
+      chp.connect(cg);
+      cg.connect(this.fx);
+      click.start(t);
+      click.stop(t + 0.05);
+    }
 
     const oscs = [];
 

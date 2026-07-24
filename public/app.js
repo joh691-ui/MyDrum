@@ -358,18 +358,37 @@ function flash(msg) {
 
 // --- boot -----------------------------------------------------------------
 
+// Sound indices (see SOUNDS in audio.js)
+const KICK = 15, SNARE = 14, HAT = 13, BASS = 3, SUB = 0, ROUND = 1,
+      ACID = 4, REESE = 6, FM = 7, WOB = 9, DROP = 11;
+
+// Five demo patterns, each a different genre. Each step: [index, midi, sound]
+const DEMOS = [
+  // 1 — boom bap (hip-hop)
+  [[0,36,KICK],[2,36,HAT],[4,38,SNARE],[6,36,HAT],[7,43,BASS],
+   [8,36,KICK],[10,36,HAT],[11,36,KICK],[12,38,SNARE],[14,36,HAT],[15,41,BASS]],
+  // 2 — house (four on the floor)
+  [[0,36,KICK],[2,36,HAT],[3,36,ROUND],[4,36,KICK],[6,36,HAT],[7,36,ROUND],
+   [8,36,KICK],[10,36,HAT],[11,39,ROUND],[12,36,KICK],[14,36,HAT],[15,41,ROUND]],
+  // 3 — acid line (303-ish)
+  [[0,36,KICK],[2,36,ACID],[3,48,ACID],[5,39,ACID],[6,36,ACID],[7,43,ACID],
+   [8,36,KICK],[10,36,ACID],[11,48,ACID],[13,41,ACID],[14,36,ACID],[15,45,ACID]],
+  // 4 — electro / reese
+  [[0,36,KICK],[2,36,HAT],[3,36,KICK],[4,38,SNARE],[6,33,REESE],[8,36,WOB],
+   [10,36,KICK],[11,36,HAT],[12,38,SNARE],[14,35,REESE]],
+  // 5 — dub / minimal sub
+  [[0,36,KICK],[2,36,FM],[4,31,DROP],[6,36,HAT],[8,36,KICK],[10,38,SUB],
+   [11,36,SUB],[14,36,HAT]],
+];
+
 function seedDemo() {
-  // A one-lane groove that mixes several sounds, so the "different sound
-  // per pad" feature is audible immediately. Each step: [index, midi, sound]
-  const p = state.patterns[0];
-  const kick = 15, snare = 14, hat = 13, bass = 3;
-  const groove = [
-    [0, 36, kick], [2, 36, hat],  [4, 38, snare], [6, 36, hat],
-    [7, 43, bass], [8, 36, kick], [10, 36, hat],  [11, 39, bass],
-    [12, 38, snare], [14, 36, hat], [15, 43, bass],
-  ];
-  groove.forEach(([i, n, s]) => { p.steps[i] = { on: true, note: n, sound: s }; });
-  state.writeSound = kick; // start on the kick so the first tap is drum-y
+  DEMOS.forEach((groove, pi) => {
+    const p = state.patterns[pi];
+    p.sound = BASS; // fallback sound for the pattern
+    groove.forEach(([i, n, s]) => { p.steps[i] = { on: true, note: n, sound: s }; });
+  });
+  state.currentPattern = 0;
+  state.writeSound = KICK; // start on the kick so the first tap is drum-y
 }
 
 function boot() {
