@@ -31,13 +31,13 @@ html, body {
   max-width: 480px;
   margin: 0 auto;
   min-height: 100%;
-  padding: calc(env(safe-area-inset-top) + 10px) 14px calc(env(safe-area-inset-bottom) + 14px);
+  padding: calc(env(safe-area-inset-top) + 8px) 14px calc(env(safe-area-inset-bottom) + 10px);
   background:
     radial-gradient(120% 60% at 50% -10%, #26272d 0%, transparent 60%),
     var(--pcb);
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .topbar {
@@ -56,16 +56,16 @@ html, body {
   background: linear-gradient(180deg, #cfe3c7, var(--lcd));
   color: var(--lcd-ink);
   border-radius: 8px;
-  padding: 10px 12px;
+  padding: 7px 12px;
   border: 2px solid #05060a;
   box-shadow: inset 0 0 0 2px rgba(0,0,0,.15), inset 0 2px 10px rgba(0,0,0,.25);
 }
 .lcd-row { display: flex; align-items: center; justify-content: space-between; }
-.lcd-top { font-size: 22px; }
+.lcd-top { font-size: 19px; }
 .lcd-face { font-weight: 700; letter-spacing: 1px; }
-.lcd-metrics b { font-size: 22px; }
+.lcd-metrics b { font-size: 19px; }
 .lcd-metrics small { font-size: 10px; margin: 0 8px 0 2px; opacity: .7; }
-.lcd-bottom { margin-top: 6px; font-size: 13px; text-transform: uppercase; opacity: .85; }
+.lcd-bottom { margin-top: 4px; font-size: 12px; text-transform: uppercase; opacity: .85; }
 .lcd-note { font-weight: 700; }
 .lcd-mode { background: var(--lcd-ink); color: var(--lcd); padding: 1px 6px; border-radius: 3px; font-size: 11px; }
 
@@ -73,11 +73,11 @@ html, body {
 .steps {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
+  gap: 6px;
 }
 .step {
   position: relative;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 4 / 3;
   border: none;
   border-radius: 8px;
   background: var(--key);
@@ -115,7 +115,7 @@ body[data-mode="pattern"] .step { box-shadow: inset 0 0 0 2px var(--yellow), ins
 }
 .key {
   flex: 0 0 30px;
-  height: 54px;
+  height: 42px;
   border: none;
   border-radius: 0 0 5px 5px;
   background: #e8e8e8;
@@ -127,14 +127,14 @@ body[data-mode="pattern"] .step { box-shadow: inset 0 0 0 2px var(--yellow), ins
   justify-content: center;
   padding-bottom: 4px;
 }
-.key.sharp { background: #23242a; color: #ccc; height: 40px; flex-basis: 24px; }
+.key.sharp { background: #23242a; color: #ccc; height: 30px; flex-basis: 24px; }
 .key:active { background: var(--accent); color: #fff; }
 
 /* ---------------- Functions ---------------- */
 .functions {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
+  gap: 6px;
 }
 .functions.second { grid-template-columns: repeat(4, 1fr); }
 .fn {
@@ -143,12 +143,12 @@ body[data-mode="pattern"] .step { box-shadow: inset 0 0 0 2px var(--yellow), ins
   background: #22242b;
   color: var(--ink);
   font: inherit;
-  font-size: 18px;
-  padding: 10px 0 6px;
+  font-size: 16px;
+  padding: 6px 0 4px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3px;
+  gap: 2px;
   box-shadow: inset 0 -3px 0 rgba(0,0,0,.4);
 }
 .fn small { font-size: 9px; color: var(--dim); text-transform: uppercase; letter-spacing: .5px; }
@@ -164,7 +164,7 @@ body[data-mode="pattern"] .step { box-shadow: inset 0 0 0 2px var(--yellow), ins
   align-items: center;
   gap: 6px;
   border-top: 1px dashed var(--line);
-  padding-top: 10px;
+  padding-top: 7px;
 }
 .fxlabel { color: var(--accent); font-weight: 800; font-size: 12px; }
 .fx {
@@ -183,10 +183,10 @@ body[data-mode="pattern"] .step { box-shadow: inset 0 0 0 2px var(--yellow), ins
 .hint {
   color: var(--dim);
   font-size: 10px;
-  line-height: 1.5;
+  line-height: 1.4;
   text-align: center;
   border-top: 1px dashed var(--line);
-  padding-top: 8px;
+  padding-top: 6px;
 }
 .hint b { color: var(--ink); }
 
