@@ -1,0 +1,213 @@
+/* MyDrum — PO-14 "sub" inspired pocket-operator look */
+:root {
+  --bg: #0d0d0f;
+  --pcb: #17181c;
+  --line: #2a2c33;
+  --ink: #e9e9ea;
+  --dim: #7c7f88;
+  --lcd: #b9d4b0;      /* greenish LCD */
+  --lcd-ink: #14200f;
+  --accent: #ff4d2e;   /* PO orange-red */
+  --yellow: #ffcf3f;
+  --key: #1e2026;
+  --key-on: #ff4d2e;
+  --key-play: #ffcf3f;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body {
+  margin: 0;
+  height: 100%;
+  background: #000;
+  color: var(--ink);
+  font-family: "SF Mono", ui-monospace, "Roboto Mono", Menlo, Consolas, monospace;
+  overscroll-behavior: none;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.device {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100%;
+  padding: calc(env(safe-area-inset-top) + 10px) 14px calc(env(safe-area-inset-bottom) + 14px);
+  background:
+    radial-gradient(120% 60% at 50% -10%, #26272d 0%, transparent 60%),
+    var(--pcb);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px dashed var(--line);
+  padding-bottom: 8px;
+}
+.brand { font-weight: 800; letter-spacing: 2px; font-size: 18px; }
+.brand::before { content: "▮ "; color: var(--accent); }
+.model { color: var(--dim); font-size: 11px; }
+
+/* ---------------- LCD ---------------- */
+.lcd {
+  background: linear-gradient(180deg, #cfe3c7, var(--lcd));
+  color: var(--lcd-ink);
+  border-radius: 8px;
+  padding: 10px 12px;
+  border: 2px solid #05060a;
+  box-shadow: inset 0 0 0 2px rgba(0,0,0,.15), inset 0 2px 10px rgba(0,0,0,.25);
+}
+.lcd-row { display: flex; align-items: center; justify-content: space-between; }
+.lcd-top { font-size: 22px; }
+.lcd-face { font-weight: 700; letter-spacing: 1px; }
+.lcd-metrics b { font-size: 22px; }
+.lcd-metrics small { font-size: 10px; margin: 0 8px 0 2px; opacity: .7; }
+.lcd-bottom { margin-top: 6px; font-size: 13px; text-transform: uppercase; opacity: .85; }
+.lcd-note { font-weight: 700; }
+.lcd-mode { background: var(--lcd-ink); color: var(--lcd); padding: 1px 6px; border-radius: 3px; font-size: 11px; }
+
+/* ---------------- Steps ---------------- */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.step {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border: none;
+  border-radius: 8px;
+  background: var(--key);
+  color: var(--ink);
+  font: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 -3px 0 rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.03);
+  transition: transform .04s, background .08s;
+}
+.step:active { transform: translateY(1px) scale(.97); }
+.step .num { font-size: 15px; font-weight: 700; color: var(--dim); }
+.step .dot { font-size: 10px; height: 12px; color: var(--yellow); }
+.step.on { background: linear-gradient(180deg, #ff6a4d, var(--key-on)); }
+.step.on .num { color: #2a0700; }
+.step.on .dot { color: #2a0700; }
+.step.playhead { outline: 3px solid var(--yellow); outline-offset: -3px; }
+.step.playhead .num { color: #fff; }
+/* every 4th step tinted like PO groupings */
+.step:nth-child(4n+1):not(.on) { background: #24262e; }
+
+/* mode hints */
+body[data-mode="sound"] .step { box-shadow: inset 0 0 0 2px var(--accent), inset 0 -3px 0 rgba(0,0,0,.4); }
+body[data-mode="pattern"] .step { box-shadow: inset 0 0 0 2px var(--yellow), inset 0 -3px 0 rgba(0,0,0,.4); }
+
+/* ---------------- Keys ---------------- */
+.keys {
+  display: flex;
+  gap: 3px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  -webkit-overflow-scrolling: touch;
+}
+.key {
+  flex: 0 0 30px;
+  height: 54px;
+  border: none;
+  border-radius: 0 0 5px 5px;
+  background: #e8e8e8;
+  color: #333;
+  font: inherit;
+  font-size: 9px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 4px;
+}
+.key.sharp { background: #23242a; color: #ccc; height: 40px; flex-basis: 24px; }
+.key:active { background: var(--accent); color: #fff; }
+
+/* ---------------- Functions ---------------- */
+.functions {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+.functions.second { grid-template-columns: repeat(4, 1fr); }
+.fn {
+  border: none;
+  border-radius: 8px;
+  background: #22242b;
+  color: var(--ink);
+  font: inherit;
+  font-size: 18px;
+  padding: 10px 0 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  box-shadow: inset 0 -3px 0 rgba(0,0,0,.4);
+}
+.fn small { font-size: 9px; color: var(--dim); text-transform: uppercase; letter-spacing: .5px; }
+.fn.small { font-size: 15px; }
+.fn:active { transform: translateY(1px); }
+.fn.active { background: var(--accent); color: #fff; }
+.fn.active small { color: #ffd9cf; }
+#btn-play.active { background: var(--yellow); color: #221800; }
+
+/* ---------------- FX ---------------- */
+.fxrow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-top: 1px dashed var(--line);
+  padding-top: 10px;
+}
+.fxlabel { color: var(--accent); font-weight: 800; font-size: 12px; }
+.fx {
+  border: none;
+  border-radius: 6px;
+  background: #22242b;
+  color: var(--ink);
+  font: inherit;
+  font-size: 12px;
+  padding: 8px 10px;
+  box-shadow: inset 0 -3px 0 rgba(0,0,0,.4);
+}
+.fx.active { background: var(--accent); color: #fff; }
+#vol { flex: 1; accent-color: var(--accent); min-width: 60px; }
+
+.hint {
+  color: var(--dim);
+  font-size: 10px;
+  line-height: 1.5;
+  text-align: center;
+  border-top: 1px dashed var(--line);
+  padding-top: 8px;
+}
+.hint b { color: var(--ink); }
+
+/* ---------------- Toast ---------------- */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(env(safe-area-inset-bottom) + 16px);
+  transform: translateX(-50%) translateY(20px);
+  background: var(--accent);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s, transform .2s;
+  z-index: 10;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+@media (min-height: 780px) {
+  .step .num { font-size: 17px; }
+}
