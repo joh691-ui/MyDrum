@@ -1,4 +1,4 @@
-# MyDrum 🎛️
+# PLONK 🎛️
 
 En **PO-14-inspirerad bas-synt och 16-stegs sequencer** — byggd som en webbapp (PWA)
 så att den går att köra fullskärm direkt på din iPhone, precis som en riktig
@@ -27,7 +27,7 @@ iPhone:  http://192.168.x.x:3000      (samma Wi-Fi)
 1. Se till att iPhone och datorn är på **samma Wi-Fi**.
 2. Öppna `iPhone`-adressen ovan i **Safari**.
 3. Tryck på **Dela** → **Lägg till på hemskärmen**.
-4. Starta MyDrum från hemskärmen — nu körs den fullskärm som en app. 🎉
+4. Starta PLONK från hemskärmen — nu körs den fullskärm som en app. 🎉
 
 > Ljud på iOS startar först efter första tryckningen (tryck **play** eller en ruta) —
 > det är Apples krav, appen sköter resten.

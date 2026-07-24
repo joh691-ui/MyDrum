@@ -1,4 +1,4 @@
-// audio.js — Web Audio synth engine for MyDrum (PO-14 "sub" inspired)
+// audio.js — Web Audio synth engine for PLONK (PO-14 "sub" inspired)
 // Monophonic-per-voice bass synthesiser with 16 sound presets + master FX.
 
 // ---------------------------------------------------------------------------

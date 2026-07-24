@@ -1,4 +1,4 @@
-// app.js — MyDrum sequencer + UI controller
+// app.js — PLONK sequencer + UI controller
 import { AudioEngine, SOUNDS } from "./audio.js";
 
 const NUM_STEPS = 16;
@@ -314,7 +314,7 @@ async function saveBank() {
     if (!r.ok) throw new Error("http " + r.status);
     flash("sparat till servern");
   } catch (err) {
-    localStorage.setItem("mydrum:" + Date.now(), body);
+    localStorage.setItem("plonk:" + Date.now(), body);
     flash("sparat lokalt (offline)");
   }
 }
@@ -326,7 +326,7 @@ async function openLoad() {
     banks = await r.json();
   } catch (err) {
     banks = Object.keys(localStorage)
-      .filter((k) => k.startsWith("mydrum:"))
+      .filter((k) => k.startsWith("plonk:") || k.startsWith("mydrum:"))
       .map((k) => ({ id: k, name: JSON.parse(localStorage.getItem(k)).name, local: true }));
   }
   if (!banks.length) return flash("inga sparade set");

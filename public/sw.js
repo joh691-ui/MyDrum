@@ -1,5 +1,5 @@
-// sw.js — tiny offline cache so MyDrum works after "Add to Home Screen"
-const CACHE = "mydrum-v4";
+// sw.js — tiny offline cache so PLONK works after "Add to Home Screen"
+const CACHE = "plonk-v1";
 const ASSETS = [
   "./",
   "./index.html",
