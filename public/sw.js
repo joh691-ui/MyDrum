@@ -1,5 +1,5 @@
 // sw.js — tiny offline cache so PLONK works after "Add to Home Screen"
-const CACHE = "plonk-v1";
+const CACHE = "plonk-v2";
 const ASSETS = [
   "./",
   "./index.html",
