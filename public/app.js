@@ -20,11 +20,18 @@ const state = {
   currentPattern: 0,
   currentStep: -1,
   writeNote: 36, // C2, the note written to a step when toggled on
+  writeSound: 0, // the sound written to a step when toggled on
   mode: "play", // play | write | sound | pattern
+  prevMode: "play", // mode to return to after sound/pattern pick
   fxHeld: 0,
   patterns: Array.from({ length: NUM_PATTERNS }, () => emptyPattern()),
   volume: 0.9,
 };
+
+// The sound a step actually plays: its own override, else the pattern default.
+function stepSound(pat, st) {
+  return st.sound != null ? st.sound : pat.sound;
+}
 
 // --- scheduler ------------------------------------------------------------
 
@@ -42,7 +49,7 @@ function scheduleStep(stepIndex, time) {
   const pat = state.patterns[state.currentPattern];
   const st = pat.steps[stepIndex];
   if (st.on) {
-    engine.play(pat.sound, st.note, time, secondsPerStep());
+    engine.play(stepSound(pat, st), st.note, time, secondsPerStep());
   }
   // schedule the UI highlight
   const delay = (time - engine.now()) * 1000;
@@ -104,31 +111,41 @@ function buildSteps() {
 
 function onStep(i) {
   engine.init();
+  const pat = state.patterns[state.currentPattern];
   if (state.mode === "sound") {
-    state.patterns[state.currentPattern].sound = i;
-    // audition
+    // The 16 pads act as a sound palette: pad i selects preset i as the
+    // active sound. It's then written to any step you switch on.
+    state.writeSound = i;
     engine.play(i, state.writeNote, engine.now() + 0.01, secondsPerStep());
-    setMode("play");
+    setMode(state.prevMode); // back to where you were (write or play)
   } else if (state.mode === "pattern") {
     state.currentPattern = i;
-    setMode("play");
+    setMode(state.prevMode);
   } else if (state.mode === "write") {
-    const st = state.patterns[state.currentPattern].steps[i];
+    const st = pat.steps[i];
     st.on = !st.on;
     if (st.on) {
       st.note = state.writeNote;
-      engine.play(state.patterns[state.currentPattern].sound, st.note, engine.now() + 0.01, secondsPerStep());
+      st.sound = state.writeSound; // remember this pad's own sound
+      engine.play(st.sound, st.note, engine.now() + 0.01, secondsPerStep());
     }
   } else {
-    // play mode: live-trigger this step's note (or the write note if empty)
-    const st = state.patterns[state.currentPattern].steps[i];
+    // play mode: live-trigger. If the step has content, play it as stored;
+    // otherwise preview the currently selected sound + note.
+    const st = pat.steps[i];
+    const sound = st.on ? stepSound(pat, st) : state.writeSound;
     const note = st.on ? st.note : state.writeNote;
-    engine.play(state.patterns[state.currentPattern].sound, note, engine.now() + 0.01, secondsPerStep());
+    engine.play(sound, note, engine.now() + 0.01, secondsPerStep());
   }
   render();
 }
 
 function setMode(mode) {
+  // remember where we came from so sound/pattern picks can return there
+  if ((mode === "sound" || mode === "pattern") &&
+      (state.mode === "play" || state.mode === "write")) {
+    state.prevMode = state.mode;
+  }
   state.mode = mode;
   ["write", "sound", "pattern"].forEach((m) => {
     const el = document.getElementById("btn-" + m);
@@ -155,15 +172,29 @@ function render() {
   const pat = state.patterns[state.currentPattern];
   for (let i = 0; i < NUM_STEPS; i++) {
     const st = pat.steps[i];
-    stepEls[i].classList.toggle("on", st.on);
-    const dot = stepEls[i].querySelector(".dot");
-    dot.textContent = st.on ? noteName(st.note) : "";
+    const el = stepEls[i];
+    const dot = el.querySelector(".dot");
+    if (state.mode === "sound") {
+      // pads become a sound palette: each pad shows its preset name
+      el.classList.toggle("on", false);
+      el.classList.toggle("sel", i === state.writeSound);
+      dot.textContent = SOUNDS[i].name;
+    } else if (state.mode === "pattern") {
+      el.classList.toggle("on", false);
+      el.classList.toggle("sel", i === state.currentPattern);
+      dot.textContent = "";
+    } else {
+      // play / write: show programmed steps with their note name
+      el.classList.toggle("sel", false);
+      el.classList.toggle("on", st.on);
+      dot.textContent = st.on ? noteName(st.note) : "";
+    }
   }
   paintPlayhead();
   // LCD text
   document.getElementById("lcd-bpm").textContent = state.bpm;
   document.getElementById("lcd-pat").textContent = String(state.currentPattern + 1).padStart(2, "0");
-  document.getElementById("lcd-sound").textContent = SOUNDS[pat.sound].name;
+  document.getElementById("lcd-sound").textContent = SOUNDS[state.writeSound].name;
   document.getElementById("lcd-note").textContent = noteName(state.writeNote);
   document.getElementById("lcd-mode").textContent = state.mode.toUpperCase();
 }
@@ -191,7 +222,7 @@ function buildKeys() {
       e.preventDefault();
       engine.init();
       state.writeNote = n;
-      engine.play(state.patterns[state.currentPattern].sound, n, engine.now() + 0.01, secondsPerStep());
+      engine.play(state.writeSound, n, engine.now() + 0.01, secondsPerStep());
       render();
     });
     kb.appendChild(k);
@@ -328,13 +359,17 @@ function flash(msg) {
 // --- boot -----------------------------------------------------------------
 
 function seedDemo() {
-  // a simple bass line so there is something to hear immediately
+  // A one-lane groove that mixes several sounds, so the "different sound
+  // per pad" feature is audible immediately. Each step: [index, midi, sound]
   const p = state.patterns[0];
-  p.sound = 3; // saw growl
-  const line = [
-    [0, 36], [3, 36], [6, 43], [8, 36], [10, 39], [14, 43],
+  const kick = 15, snare = 14, hat = 13, bass = 3;
+  const groove = [
+    [0, 36, kick], [2, 36, hat],  [4, 38, snare], [6, 36, hat],
+    [7, 43, bass], [8, 36, kick], [10, 36, hat],  [11, 39, bass],
+    [12, 38, snare], [14, 36, hat], [15, 43, bass],
   ];
-  line.forEach(([i, n]) => { p.steps[i] = { on: true, note: n }; });
+  groove.forEach(([i, n, s]) => { p.steps[i] = { on: true, note: n, sound: s }; });
+  state.writeSound = kick; // start on the kick so the first tap is drum-y
 }
 
 function boot() {

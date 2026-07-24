@@ -1,5 +1,5 @@
 // sw.js — tiny offline cache so MyDrum works after "Add to Home Screen"
-const CACHE = "mydrum-v2";
+const CACHE = "mydrum-v3";
 const ASSETS = [
   "./",
   "./index.html",
