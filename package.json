@@ -1,0 +1,17 @@
+{
+  "name": "mydrum",
+  "version": "1.0.0",
+  "description": "PO-14 inspired pocket bass synth & 16-step sequencer that runs as a PWA on iPhone",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

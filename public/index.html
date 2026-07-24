@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="MyDrum" />
+  <meta name="theme-color" content="#111111" />
+  <title>MyDrum · PO-14 style</title>
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="icon" href="./icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="./icons/icon-192.png" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body data-mode="play">
+  <div class="device">
+    <header class="topbar">
+      <span class="brand">MyDrum</span>
+      <span class="model">bass&nbsp;·&nbsp;PO-14 style</span>
+    </header>
+
+    <!-- LCD -->
+    <div class="lcd">
+      <div class="lcd-row lcd-top">
+        <span class="lcd-face" id="lcd-face">( •_•)</span>
+        <span class="lcd-metrics">
+          <b id="lcd-bpm">120</b><small>BPM</small>
+          <b id="lcd-pat">01</b><small>PAT</small>
+        </span>
+      </div>
+      <div class="lcd-row lcd-bottom">
+        <span class="lcd-sound" id="lcd-sound">sub sine</span>
+        <span class="lcd-note" id="lcd-note">C2</span>
+        <span class="lcd-mode" id="lcd-mode">PLAY</span>
+      </div>
+    </div>
+
+    <!-- 16 step sequencer -->
+    <section class="steps" id="steps" aria-label="16 step sequencer"></section>
+
+    <!-- pitch keyboard -->
+    <section class="keys" id="keys" aria-label="pitch keyboard"></section>
+
+    <!-- function row -->
+    <section class="functions">
+      <button class="fn" id="btn-play">▶︎<small>play</small></button>
+      <button class="fn" id="btn-write">●<small>write</small></button>
+      <button class="fn" id="btn-sound">◐<small>sound</small></button>
+      <button class="fn" id="btn-pattern">▦<small>pattern</small></button>
+      <button class="fn" id="btn-clear">✕<small>clear</small></button>
+    </section>
+
+    <section class="functions second">
+      <button class="fn small" id="btn-bpm-down">−<small>bpm</small></button>
+      <button class="fn small" id="btn-bpm-up">+<small>bpm</small></button>
+      <button class="fn small" id="btn-save">⬇<small>save</small></button>
+      <button class="fn small" id="btn-load">⬆<small>load</small></button>
+    </section>
+
+    <!-- performance fx -->
+    <section class="fxrow">
+      <span class="fxlabel">FX</span>
+      <button class="fx" data-fx="1">lp</button>
+      <button class="fx" data-fx="2">hp</button>
+      <button class="fx" data-fx="3">echo</button>
+      <button class="fx" data-fx="4">wah</button>
+      <input type="range" id="vol" min="0" max="100" value="90" aria-label="volume" />
+    </section>
+
+    <footer class="hint" id="hint">
+      Tryck <b>play</b>. <b>write</b> + en ton + en ruta = programmera. <b>sound</b>/<b>pattern</b> + ruta = välj.
+    </footer>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
