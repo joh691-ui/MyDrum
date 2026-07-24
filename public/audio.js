@@ -10,7 +10,7 @@
 // `drive` now feeds a per-voice waveshaper (the PO-14 punch/grit).
 // `click` adds a short filtered-noise transient at the attack.
 export const SOUNDS = [
-  { name: "sub sine",   type: "sine",     glide: 0,    decay: 0.9,  cutoff: 420,  q: 2,  drive: 0.25, sub: 1.0 },
+  { name: "sub sine",   type: "sine",     glide: 0,    decay: 0.9,  cutoff: 420,  q: 2,  drive: 0.25, sub: 1.0, level: 0.85 },
   { name: "round",      type: "sine",     glide: 0.04, decay: 0.7,  cutoff: 620,  q: 4,  drive: 0.30, sub: 0.7 },
   { name: "triangle",   type: "triangle", glide: 0,    decay: 0.6,  cutoff: 950,  q: 3,  drive: 0.30, sub: 0.5 },
   { name: "saw growl",  type: "sawtooth", glide: 0.02, decay: 0.8,  cutoff: 520,  q: 9,  drive: 0.65, sub: 0.6 },
@@ -21,11 +21,11 @@ export const SOUNDS = [
   { name: "pluck",      type: "triangle", glide: 0,    decay: 0.26, cutoff: 1700, q: 7,  drive: 0.35, sub: 0.3, env: 2000, click: 0.35 },
   { name: "wobble",     type: "sawtooth", glide: 0.02, decay: 0.9,  cutoff: 520,  q: 11, drive: 0.60, sub: 0.5, lfo: 6, lfoAmt: 420 },
   { name: "hollow",     type: "square",   glide: 0,    decay: 0.6,  cutoff: 1050, q: 2,  drive: 0.35, sub: 0.4, pwm: true },
-  { name: "deep drop",  type: "sine",     glide: 0.12, decay: 1.2,  cutoff: 300,  q: 1,  drive: 0.20, sub: 1.0, drop: 14 },
+  { name: "deep drop",  type: "sine",     glide: 0.12, decay: 1.2,  cutoff: 300,  q: 1,  drive: 0.20, sub: 1.0, drop: 14, level: 0.85 },
   { name: "buzz",       type: "sawtooth", glide: 0,    decay: 0.4,  cutoff: 2400, q: 4,  drive: 0.85, sub: 0.2 },
   { name: "sine tick",  type: "sine",     glide: 0,    decay: 0.11, cutoff: 3200, q: 1,  drive: 0.20, sub: 0.15, env: 0, click: 0.5, clickHp: 4000 },
   { name: "noise hit",  type: "noise",    glide: 0,    decay: 0.17, cutoff: 3600, q: 1,  drive: 0.35, sub: 0,   click: 0.5, clickHp: 1800 },
-  { name: "sub kick",   type: "sine",     glide: 0,    decay: 0.40, cutoff: 200,  q: 1,  drive: 0.50, sub: 1.0, drop: 40, click: 0.55, clickHp: 1200 },
+  { name: "sub kick",   type: "sine",     glide: 0,    decay: 0.32, cutoff: 200,  q: 1,  drive: 0.38, sub: 0.7, drop: 40, click: 0.4, clickHp: 1400, level: 0.6 },
 ];
 
 export class AudioEngine {
@@ -71,10 +71,10 @@ export class AudioEngine {
     this.master.gain.value = 0.9;
 
     const comp = this.ctx.createDynamicsCompressor();
-    comp.threshold.value = -10;
-    comp.ratio.value = 6;
-    comp.attack.value = 0.003;
-    comp.release.value = 0.15;
+    comp.threshold.value = -6;
+    comp.ratio.value = 3.5;   // gentler so a loud kick doesn't duck the rest
+    comp.attack.value = 0.005;
+    comp.release.value = 0.22;
 
     this.filter = this.ctx.createBiquadFilter();
     this.filter.type = "lowpass";
@@ -248,7 +248,8 @@ export class AudioEngine {
     }
 
     // amp envelope (fast attack, exponential decay)
-    const peak = 0.9 * velocity;
+    // per-preset `level` balances loud sub-heavy sounds against the rest
+    const peak = 0.9 * velocity * (s.level != null ? s.level : 1);
     amp.gain.setValueAtTime(0, t);
     amp.gain.linearRampToValueAtTime(peak, t + 0.006);
     amp.gain.exponentialRampToValueAtTime(0.0008, t + dur);
