@@ -39,7 +39,7 @@ iPhone:  http://192.168.x.x:3000      (samma Wi-Fi)
 | **play** | Startar/stoppar sequencern |
 | **write** | Redigeringsläge — tryck på en ruta (1–16) för att lägga till/ta bort ett steg |
 | **sound** | Tryck **sound**, sen en ruta (1–16) = välj ett av 16 basljud |
-| **pattern** | Tryck **pattern**, sen en ruta = byt mellan 16 patterns |
+| **pattern** | Tryck **pattern**, sen en ruta = byt mellan 16 patterns (1–5 är demo-mönster: boom bap, house, acid, electro, dub) |
 | **clear** | Rensar aktuellt pattern |
 | **− / + bpm** | Tempo (40–240 BPM) |
 | **save / load** | Sparar/laddar hela ditt set (16 patterns) till servern |
